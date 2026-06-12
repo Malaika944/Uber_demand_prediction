@@ -114,8 +114,21 @@ if date and time:
               "#FFA07A", "#FFDAB9", "#FFE4B5", "#F5DEB3", "#EEE8AA"]
 
        # add color to the data
-       region_colors = {region: colors[i] for i, region in enumerate(df_plot["region"].unique().tolist())}
+       #region_colors = {region: colors[i] for i, region in enumerate(df_plot["region"].unique().tolist())}
+       #df_plot["color"] = df_plot["region"].map(region_colors)
+       region_colors = {region: colors[i] for i, region in 
+       enumerate(sorted(df_plot["region"].unique().tolist()))}
+
+       # Sort regions for consistent colors
+       sorted_regions = sorted(df_plot["region"].unique().tolist())
+       region_colors = {region: colors[i] for i, region in 
+       enumerate(sorted_regions)}
+
+# Apply colors
        df_plot["color"] = df_plot["region"].map(region_colors)
+
+# Fill any unmapped colors with default
+       df_plot["color"] = df_plot["color"].fillna("#FFFFFF")
        
        # make prediction pipeline
        pipe = Pipeline([
